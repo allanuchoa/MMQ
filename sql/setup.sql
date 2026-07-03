@@ -5,10 +5,11 @@
 -- ============================================================================
 -- 1. Registro da ferramenta na tabela de aplicacoes
 -- ============================================================================
-INSERT INTO public.applications (slug, name, category, is_active)
-VALUES ('curva-polinomial', 'Curva Polinomial', 'Engineering', true)
+INSERT INTO public.applications (slug, name, url, category, is_active)
+VALUES ('curva-polinomial', 'Curva Polinomial', 'https://allanuchoa.github.io/MMQ/', 'Engineering', true)
 ON CONFLICT (slug) DO UPDATE
   SET name = EXCLUDED.name,
+      url = EXCLUDED.url,
       category = EXCLUDED.category,
       is_active = EXCLUDED.is_active;
 

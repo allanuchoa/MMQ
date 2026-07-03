@@ -17,6 +17,3 @@ function getSupabaseClient() {
   }
   return supabaseClientInstance;
 }
-
-// Inicializa a instância global
-const supabase = getSupabaseClient();

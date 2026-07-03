@@ -46,7 +46,7 @@ document.addEventListener('workbench-ready', function (event) {
 });
 
 function initApp() {
-  var supabaseClient = supabase;
+  var supabaseClient = getSupabaseClient();
   if (!supabaseClient) return;
 
   supabaseClient.auth.onAuthStateChange(function (event) {

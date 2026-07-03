@@ -1,6 +1,5 @@
 var chartInstance = null;
 var lastResults = null;
-var workbenchReady = false;
 
 var rootStyles = getComputedStyle(document.documentElement);
 
@@ -30,18 +29,6 @@ function toDecimalStr(val) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  setTimeout(function () {
-    if (!workbenchReady) {
-      var banner = document.getElementById('global-error-banner');
-      if (banner) banner.style.display = 'flex';
-    }
-  }, 8000);
-});
-
-document.addEventListener('workbench-ready', function (event) {
-  workbenchReady = true;
-  var banner = document.getElementById('global-error-banner');
-  if (banner) banner.style.display = 'none';
   initApp();
 });
 

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curva Polinomial - Allan Workbench</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body>
+
+  <div class="global-error-banner" id="global-error-banner">
+    <div class="error-state-card">
+      <svg class="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <p>Nao foi possivel validar sua sessao. Verifique sua conexao e tente novamente.</p>
+      <button class="btn-retry" onclick="window.location.reload()">Tentar novamente</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <header class="header">
+      <h1>Metodo dos Minimos Quadrados</h1>
+      <p>Ajuste de curvas polinomiais</p>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="card">
+          <div class="input-grid">
+            <div class="form-group">
+              <label for="degree">Ordem do Polinomio</label>
+              <input type="number" id="degree" value="1" min="1" max="10">
+            </div>
+
+            <div class="form-group">
+              <label for="x-values">Valores de X</label>
+              <input type="text" id="x-values" placeholder="Ex: 1, 2, 3, 4, 5">
+              <small>Separados por virgula ou espaco</small>
+            </div>
+
+            <div class="form-group">
+              <label for="y-values">Valores de Y</label>
+              <input type="text" id="y-values" placeholder="Ex: 2.1, 3.9, 6.1, 8.2, 9.8">
+              <small>Separados por virgula ou espaco</small>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" onclick="calculateMMQ()">Calcular Ajuste</button>
+          </div>
+
+          <hr>
+
+          <div class="form-group">
+            <label style="color: var(--color-primary); font-weight: 600;">Simular Novos Valores</label>
+            <label for="new-x-values">Novos X</label>
+            <input type="text" id="new-x-values" placeholder="Ex: 6, 7.5, 10">
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-secondary" onclick="calculateNewY()">Calcular Y</button>
+          </div>
+
+          <div id="prediction-result">
+            <span class="result-label">Resultados (Y)</span>
+            <div id="new-y-values" class="result-value" style="font-size: 0.85rem; max-height: 100px; overflow-y: auto;"></div>
+          </div>
+        </div>
+
+        <div class="excel-box" id="excel-box">
+          <div class="excel-icon">X</div>
+          <div class="excel-content">
+            <div class="excel-formula" id="excel-formula-display">=Formula...</div>
+            <div class="excel-label">Formula para Excel (copie e cole)</div>
+          </div>
+          <button class="copy-btn-small" onclick="copyToExcel()">Copiar</button>
+        </div>
+      </section>
+
+      <section class="chart-section" id="results" style="display: none;">
+        <div class="results-grid">
+          <div class="result-box">
+            <span class="result-label">Polinomio Ajustado</span>
+            <div id="polynomial-display" class="result-value"></div>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">Erro Quadratico Total</span>
+            <div id="error-display" class="result-value"></div>
+          </div>
+        </div>
+
+        <div class="chart-container-wrapper">
+          <div class="chart-container">
+            <canvas id="mmqChart"></canvas>
+            <div class="chart-empty-state">Calcule um ajuste para visualizar o grafico.</div>
+            <div class="chart-error-state">
+              <svg class="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <p>Nao foi possivel carregar o grafico.</p>
+              <button class="btn-retry" onclick="window.location.reload()">Tentar novamente</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="supabase.js"></script>
+
+  <script>
+    (function() {
+      var bridgeScript = document.createElement('script');
+      bridgeScript.src = CONFIG.PORTAL_URL + 'assets/js/workbench-bridge.js';
+      bridgeScript.defer = true;
+      document.head.appendChild(bridgeScript);
+    })();
+  </script>
+
+  <script src="app.js"></script>
+</body>
+</html>

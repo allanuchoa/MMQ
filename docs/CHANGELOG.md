@@ -1,5 +1,10 @@
 # CHANGELOG - Curva Polinomial
 
+## [1.1.1] - 2026-07-03
+
+### Corrigido
+- Overflow do grafico: `#results` removido `display:none` inicial (layout estavel desde o load), `.chart-container` trocado de `position:absolute` para `width/height:100%` com `overflow:hidden` no wrapper - impedia que o canvas tomasse a tela e cortasse conteudo - (Autor: Agente de IA DeepSeek)
+
 ## [1.1.0] - 2026-07-03
 
 ### Modificado

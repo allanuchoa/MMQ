@@ -77,21 +77,25 @@ input {
   overflow: hidden;
 }
 
-.tool-title {
-  font-family: var(--font-sans);
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 32px;
-  color: var(--color-primary);
-  margin-bottom: var(--spacing-xs);
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+  flex-shrink: 0;
 }
 
-.tool-subtitle {
+.header h1 {
   font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 28px;
+  color: var(--color-primary);
+}
+
+.header p {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 16px;
   color: var(--color-mute);
-  margin-bottom: var(--spacing-lg);
 }
 
 main {

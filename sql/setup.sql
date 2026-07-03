@@ -1,6 +1,10 @@
 -- Curva Polinomial - Setup do Banco de Dados
 -- Slug: curva-polinomial
 -- Prefixo de tabelas: cvp_
+--
+-- Instancia do template canônico: ../../template/sql/onboard-tool.template.sql
+-- Rodar no Supabase SQL Editor (service_role bypassa RLS). Re-executavel (ON CONFLICT).
+-- NAO criar policies sobre applications/user_applications/profiles (contrato RLS do registry).
 
 -- ============================================================================
 -- 1. Registro da ferramenta na tabela de aplicacoes

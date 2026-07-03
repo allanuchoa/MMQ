@@ -3,7 +3,7 @@
 ## [1.1.1] - 2026-07-03
 
 ### Corrigido
-- Overflow do grafico: `#results` removido `display:none` inicial (layout estavel desde o load), `.chart-container` trocado de `position:absolute` para `width/height:100%` com `overflow:hidden` no wrapper - impedia que o canvas tomasse a tela e cortasse conteudo - (Autor: Agente de IA DeepSeek)
+- Overflow grafico + scroll ausente: `.card` trocado de `flex:1` para `flex-shrink:0` (evita que o card expanda e empurre tudo pra fora); `.results-grid` adicionado `flex-grow:0; height:auto; align-content:start`; `body` `min-height:100vh` → `height:100vh` (viewport fixo); `.chart-container` restaurado para `position:absolute` dentro de wrapper `position:relative` (layout testado do PRD) - (Autor: Agente de IA DeepSeek)
 
 ## [1.1.0] - 2026-07-03
 

@@ -61,14 +61,10 @@ function initApp() {
         chartInstance = null;
       }
       lastResults = null;
-      var resultsGrid = document.querySelector('.results-grid');
+      var results = document.getElementById('results');
       var excelBox = document.getElementById('excel-box');
-      var emptyState = document.querySelector('.chart-empty-state');
-      var errorState = document.querySelector('.chart-error-state');
-      if (resultsGrid) resultsGrid.style.display = 'none';
+      if (results) results.style.display = 'none';
       if (excelBox) excelBox.style.display = 'none';
-      if (emptyState) emptyState.style.display = '';
-      if (errorState) errorState.style.display = 'none';
       if (validateRedirectUrl(CONFIG.PORTAL_URL)) {
         window.location.href = CONFIG.PORTAL_URL;
       }
@@ -200,7 +196,7 @@ function calculateMMQ() {
   displayResults(coeffs, totalError, x);
   renderChart(x, y, yPredicted, degree, coeffs);
 
-  document.querySelector('.results-grid').style.display = 'grid';
+  document.getElementById('results').style.display = 'flex';
 }
 
 function displayResults(coeffs, error, xOriginal) {

@@ -70,32 +70,28 @@ input {
 .container {
   width: 100%;
   margin: 0 auto;
-  padding: var(--spacing-xl);
+  padding: var(--spacing-lg);
   display: flex;
   flex-direction: column;
   height: calc(100vh - 48px);
   overflow: hidden;
 }
 
-.header {
-  text-align: center;
-  margin-bottom: var(--spacing-lg);
-  flex-shrink: 0;
-}
-
-.header h1 {
+.tool-title {
   font-family: var(--font-sans);
   font-size: 24px;
   font-weight: 700;
   line-height: 32px;
   color: var(--color-primary);
+  margin-bottom: var(--spacing-xs);
 }
 
-.header p {
+.tool-subtitle {
   font-family: var(--font-sans);
   font-size: 14px;
   line-height: 20px;
   color: var(--color-mute);
+  margin-bottom: var(--spacing-lg);
 }
 
 main {

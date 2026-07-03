@@ -19,6 +19,7 @@
   --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace;
 
+  --rounded-xs: 4px;
   --rounded-sm: 6px;
   --rounded-md: 8px;
 
@@ -342,13 +343,13 @@ hr {
 /* ─── EXCEL BOX ─── */
 .excel-box {
   display: none;
-  background-color: #e6f4ea;
-  border: 1px solid var(--excel-green);
+  background-color: var(--color-canvas-soft);
+  border: 1px solid var(--color-primary);
   border-radius: var(--rounded-md);
   padding: var(--spacing-md);
   align-items: center;
   gap: var(--spacing-md);
-  color: #1f2937;
+  color: var(--color-ink);
 }
 
 .excel-icon {
@@ -359,7 +360,7 @@ hr {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--rounded-xs, 4px);
+  border-radius: var(--rounded-xs);
   font-family: var(--font-sans);
   font-weight: 700;
   font-size: 1.1rem;
@@ -374,7 +375,7 @@ hr {
 .excel-formula {
   font-family: var(--font-mono);
   font-size: 14px;
-  color: #166534;
+  color: var(--color-primary-soft);
   white-space: nowrap;
   overflow-x: auto;
   display: block;
@@ -383,16 +384,15 @@ hr {
 
 .excel-label {
   font-size: 12px;
-  color: #166534;
-  opacity: 0.8;
+  color: var(--color-mute);
 }
 
 .copy-btn-small {
   background: none;
-  border: 1px solid var(--excel-green);
-  color: var(--excel-green);
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
   padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--rounded-xs, 4px);
+  border-radius: var(--rounded-xs);
   font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 600;
@@ -400,7 +400,7 @@ hr {
 }
 
 .copy-btn-small:hover {
-  background-color: rgba(33, 115, 70, 0.1);
+  background-color: rgba(0, 217, 146, 0.1);
 }
 
 /* ─── PREDICTION ─── */

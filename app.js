@@ -2,7 +2,7 @@ var chartInstance = null;
 var lastResults = null;
 var workbenchReady = false;
 
-var styles = getComputedStyle(document.documentElement);
+var rootStyles = getComputedStyle(document.documentElement);
 
 function validateRedirectUrl(url) {
   if (!/^https?:\/\//.test(url)) {
@@ -10,6 +10,23 @@ function validateRedirectUrl(url) {
     return false;
   }
   return true;
+}
+
+function hexToRgba(hex, alpha) {
+  if (hex.charAt(0) === '#') hex = hex.slice(1);
+  if (hex.length === 3) {
+    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+  }
+  var r = parseInt(hex.substring(0, 2), 16);
+  var g = parseInt(hex.substring(2, 4), 16);
+  var b = parseInt(hex.substring(4, 6), 16);
+  return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+}
+
+function toDecimalStr(val) {
+  if (Math.abs(val) < 1e-15) return '0';
+  var s = val.toFixed(10);
+  return s.replace(/0+$/, '').replace(/\.$/, '');
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -22,18 +39,17 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('workbench-ready', function (event) {
-  var session = event.detail.session;
   workbenchReady = true;
   var banner = document.getElementById('global-error-banner');
   if (banner) banner.style.display = 'none';
-  initApp(session);
+  initApp();
 });
 
-function initApp(session) {
-  var supabaseClient = window.supabase;
+function initApp() {
+  var supabaseClient = supabase;
   if (!supabaseClient) return;
 
-  supabaseClient.auth.onAuthStateChange(function (event, session) {
+  supabaseClient.auth.onAuthStateChange(function (event) {
     if (event === 'SIGNED_OUT') {
       if (chartInstance) {
         chartInstance.destroy();
@@ -78,6 +94,10 @@ function solveLinearSystem(A, B) {
     A[i] = A[maxRow];
     A[maxRow] = tmp;
 
+    if (Math.abs(A[i][i]) < 1e-12) {
+      throw new Error('Matriz singular ou mal condicionada');
+    }
+
     for (k = i + 1; k < n; k++) {
       var factor = A[k][i] / A[i][i];
       for (j = i; j <= n; j++) {
@@ -88,6 +108,9 @@ function solveLinearSystem(A, B) {
 
   var x = new Array(n).fill(0);
   for (i = n - 1; i >= 0; i--) {
+    if (Math.abs(A[i][i]) < 1e-12) {
+      throw new Error('Matriz singular ou mal condicionada');
+    }
     var sum = 0;
     for (j = i + 1; j < n; j++) {
       sum += A[i][j] * x[j];
@@ -106,11 +129,11 @@ function calculateMMQ() {
   var y = parseInput(yInput);
 
   if (x.length !== y.length || x.length === 0) {
-    alert('Erro: O numero de valores de X e Y deve ser o mesmo e nao pode ser vazio.');
+    alert('Erro: O n\u00famero de valores de X e Y deve ser o mesmo e n\u00e3o pode ser vazio.');
     return;
   }
   if (x.length <= degree) {
-    alert('Erro: Para um polinomio de ordem ' + degree + ', voce precisa de pelo menos ' + (degree + 1) + ' pontos.');
+    alert('Erro: Para um polin\u00f4mio de ordem ' + degree + ', voc\u00ea precisa de pelo menos ' + (degree + 1) + ' pontos.');
     return;
   }
 
@@ -148,7 +171,7 @@ function calculateMMQ() {
   try {
     coeffs = solveLinearSystem(A, B);
   } catch (e) {
-    alert('Erro no calculo da matriz. Verifique se os dados nao geram um sistema singular.');
+    alert('Erro no c\u00e1lculo da matriz. Verifique se os dados n\u00e3o geram um sistema singular.');
     return;
   }
 
@@ -170,8 +193,9 @@ function calculateMMQ() {
 }
 
 function displayResults(coeffs, error, xOriginal) {
+  var i;
   var polyStr = 'y = ';
-  for (var i = coeffs.length - 1; i >= 0; i--) {
+  for (i = coeffs.length - 1; i >= 0; i--) {
     var val = coeffs[i];
     if (Math.abs(val) < 1e-10) continue;
 
@@ -198,11 +222,11 @@ function displayResults(coeffs, error, xOriginal) {
   document.getElementById('error-display').innerText = error.toExponential(4).replace('+', '');
 
   var excelStr = '=';
-  for (var i = coeffs.length - 1; i >= 0; i--) {
+  for (i = coeffs.length - 1; i >= 0; i--) {
     var val = coeffs[i];
     if (Math.abs(val) < 1e-10) continue;
 
-    var term = val.toString();
+    var term = toDecimalStr(val);
 
     if (val >= 0 && excelStr !== '=') excelStr += '+';
 
@@ -271,11 +295,11 @@ function renderChart(x, y, yPred, degree, coeffs) {
   var scatterData = x.map(function (xi, i) { return { x: xi, y: y[i] }; });
   var lineData = smoothX.map(function (xi, i) { return { x: xi, y: smoothY[i] }; });
 
-  var primaryDeep = styles.getPropertyValue('--color-primary-deep').trim() || '#10b981';
-  var primary = styles.getPropertyValue('--color-primary').trim() || '#00d992';
-  var mute = styles.getPropertyValue('--color-mute').trim() || '#8b949e';
-  var hairline = styles.getPropertyValue('--color-hairline').trim() || '#3d3a39';
-  var ink = styles.getPropertyValue('--color-ink').trim() || '#f2f2f2';
+  var primaryDeep = rootStyles.getPropertyValue('--color-primary-deep').trim() || '#10b981';
+  var primary = rootStyles.getPropertyValue('--color-primary').trim() || '#00d992';
+  var mute = rootStyles.getPropertyValue('--color-mute').trim() || '#8b949e';
+  var hairline = rootStyles.getPropertyValue('--color-hairline').trim() || '#3d3a39';
+  var ink = rootStyles.getPropertyValue('--color-ink').trim() || '#f2f2f2';
 
   var ctx = canvas.getContext('2d');
 
@@ -295,7 +319,7 @@ function renderChart(x, y, yPred, degree, coeffs) {
           label: 'Ajuste Polinomial (Ordem ' + degree + ')',
           data: lineData,
           borderColor: primary,
-          backgroundColor: primary + '1A',
+          backgroundColor: hexToRgba(primary, 0.1),
           borderWidth: 2,
           pointRadius: 0,
           fill: false,
@@ -354,6 +378,11 @@ function renderChart(x, y, yPred, degree, coeffs) {
 function copyToExcel() {
   if (!lastResults) {
     alert('Calcule primeiro antes de copiar.');
+    return;
+  }
+
+  if (!navigator.clipboard) {
+    alert('Erro ao copiar: clipboard indisponivel neste navegador.');
     return;
   }
 

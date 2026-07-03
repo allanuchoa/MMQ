@@ -17,8 +17,7 @@
 
   <div class="container">
     <header class="header">
-      <h1>Metodo dos Minimos Quadrados</h1>
-      <p>Ajuste de curvas polinomiais</p>
+      <h1>M&eacute;todo dos M&iacute;nimos Quadrados</h1>
     </header>
 
     <main>
@@ -26,26 +25,27 @@
         <div class="card">
           <div class="input-grid">
             <div class="form-group">
-              <label for="degree">Ordem do Polinomio</label>
+              <label for="degree">Ordem do Polin&ocirc;mio</label>
               <input type="number" id="degree" value="1" min="1" max="10">
             </div>
 
             <div class="form-group">
               <label for="x-values">Valores de X</label>
               <input type="text" id="x-values" placeholder="Ex: 1, 2, 3, 4, 5">
-              <small>Separados por virgula ou espaco</small>
+              <small>Separados por v&iacute;rgula ou espa&ccedil;o</small>
             </div>
 
             <div class="form-group">
               <label for="y-values">Valores de Y</label>
               <input type="text" id="y-values" placeholder="Ex: 2.1, 3.9, 6.1, 8.2, 9.8">
-              <small>Separados por virgula ou espaco</small>
+              <small>Separados por v&iacute;rgula ou espa&ccedil;o</small>
             </div>
           </div>
 
           <div class="actions">
             <button class="btn btn-primary" onclick="calculateMMQ()">Calcular Ajuste</button>
           </div>
+          <div class="form-error" id="form-error" style="display: none;"></div>
 
           <hr>
 
@@ -69,33 +69,33 @@
           <div class="excel-icon">X</div>
           <div class="excel-content">
             <div class="excel-formula" id="excel-formula-display">=Formula...</div>
-            <div class="excel-label">Formula para Excel (copie e cole)</div>
+            <div class="excel-label">F&oacute;rmula para Excel (copie e cole)</div>
           </div>
-          <button class="copy-btn-small" onclick="copyToExcel()">Copiar</button>
+          <button class="btn-icon-copy" onclick="copyToExcel()">Copiar</button>
         </div>
       </section>
 
       <section class="chart-section" id="results" style="display: none;">
         <div class="results-grid">
           <div class="result-box">
-            <span class="result-label">Polinomio Ajustado</span>
+            <span class="result-label">Polin&ocirc;mio Ajustado</span>
             <div id="polynomial-display" class="result-value"></div>
           </div>
 
           <div class="result-box">
-            <span class="result-label">Erro Quadratico Total</span>
+            <span class="result-label">Erro Quadr&aacute;tico Total</span>
             <div id="error-display" class="result-value"></div>
           </div>
         </div>
 
         <div class="chart-container-wrapper">
           <div class="chart-container">
-            <canvas id="mmqChart"></canvas>
-            <div class="chart-empty-state">Calcule um ajuste para visualizar o grafico.</div>
+            <canvas id="mmqChart" role="img" aria-label="Gr&aacute;fico de ajuste polinomial"></canvas>
+            <div class="chart-empty-state">Calcule um ajuste para visualizar o gr&aacute;fico.</div>
             <div class="chart-error-state">
-              <svg class="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              <p>Nao foi possivel carregar o grafico.</p>
-              <button class="btn-retry" onclick="window.location.reload()">Tentar novamente</button>
+              <svg class="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="alert" aria-label="Erro"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <p>N&atilde;o foi poss&iacute;vel carregar o gr&aacute;fico.</p>
+              <button class="btn btn-secondary" onclick="window.location.reload()">Tentar novamente</button>
             </div>
           </div>
         </div>

@@ -59,6 +59,8 @@ body {
   background-color: var(--color-canvas);
   color: var(--color-ink);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
@@ -73,29 +75,25 @@ input {
   padding: var(--spacing-lg);
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 48px);
+  flex: 1;
+  min-height: 0;
   overflow: hidden;
 }
 
 .header {
-  text-align: center;
-  margin-bottom: var(--spacing-md);
+  text-align: left;
+  margin-bottom: var(--spacing-lg);
   flex-shrink: 0;
 }
 
 .header h1 {
   font-family: var(--font-sans);
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
-  line-height: 28px;
-  color: var(--color-primary);
-}
-
-.header p {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  line-height: 16px;
-  color: var(--color-mute);
+  line-height: 20px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink);
 }
 
 main {
@@ -111,7 +109,10 @@ main {
   flex-direction: column;
   gap: var(--spacing-lg);
   overflow-y: auto;
-  padding-right: var(--spacing-sm);
+  background-color: var(--color-canvas-soft);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-md);
+  padding: var(--spacing-xl);
 }
 
 .chart-section {
@@ -124,10 +125,25 @@ main {
 
 /* ─── CARDS ─── */
 .card {
-  background-color: var(--color-canvas-soft);
-  border: 1px solid var(--color-hairline);
-  border-radius: var(--rounded-md);
-  padding: var(--spacing-xl);
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  flex: 1;
+}
+
+/* ─── FORM ERROR ─── */
+.form-error {
+  display: none;
+  color: var(--color-danger);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-top: var(--spacing-md);
+  background-color: rgba(248, 113, 113, 0.08);
+  border-radius: var(--rounded-sm);
 }
 
 /* ─── INPUTS ─── */
@@ -170,8 +186,9 @@ input[type="number"] {
   width: 100%;
 }
 
-input:focus {
-  outline: none;
+input:focus-visible {
+  outline: 2px solid var(--color-primary-soft);
+  outline-offset: 2px;
   border-color: var(--color-primary);
 }
 
@@ -205,7 +222,7 @@ input::placeholder {
 }
 
 .btn-primary:hover {
-  opacity: 0.9;
+  box-shadow: 0 0 12px rgba(0, 217, 146, 0.25);
 }
 
 .btn-secondary {
@@ -254,7 +271,7 @@ hr {
 
 .result-label {
   font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--color-mute);
   margin-bottom: 2px;
 }
@@ -289,17 +306,17 @@ hr {
   background-color: var(--color-canvas-soft);
   border: 1px solid var(--color-hairline);
   border-radius: var(--rounded-md);
-  padding: var(--spacing-lg);
+  padding: var(--spacing-xl);
   min-height: 0;
   position: relative;
 }
 
 .chart-container {
   position: absolute;
-  top: var(--spacing-lg);
-  left: var(--spacing-lg);
-  right: var(--spacing-lg);
-  bottom: var(--spacing-lg);
+  top: var(--spacing-xl);
+  left: var(--spacing-xl);
+  right: var(--spacing-xl);
+  bottom: var(--spacing-xl);
 }
 
 .chart-empty-state {
@@ -343,8 +360,8 @@ hr {
 /* ─── EXCEL BOX ─── */
 .excel-box {
   display: none;
-  background-color: var(--color-canvas-soft);
-  border: 1px solid var(--color-primary);
+  background-color: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
   border-radius: var(--rounded-md);
   padding: var(--spacing-md);
   align-items: center;
@@ -374,7 +391,7 @@ hr {
 
 .excel-formula {
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color-primary-soft);
   white-space: nowrap;
   overflow-x: auto;
@@ -387,19 +404,21 @@ hr {
   color: var(--color-mute);
 }
 
-.copy-btn-small {
-  background: none;
-  border: 1px solid var(--color-primary);
-  color: var(--color-primary);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--rounded-xs);
+.btn-icon-copy {
+  background-color: var(--color-canvas);
+  color: var(--color-primary-soft);
+  border: none;
+  border-radius: var(--rounded-sm);
+  padding: var(--spacing-xs) var(--spacing-md);
   font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
 }
 
-.copy-btn-small:hover {
+.btn-icon-copy:hover {
   background-color: rgba(0, 217, 146, 0.1);
 }
 
@@ -411,25 +430,6 @@ hr {
   padding: var(--spacing-md);
   border: 1px solid var(--color-hairline);
   border-radius: var(--rounded-md);
-}
-
-/* ─── BUTTON RETRY (chart error state) ─── */
-.btn-retry {
-  background-color: var(--color-canvas);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
-  border: 1px solid var(--color-hairline);
-  border-radius: var(--rounded-sm);
-  padding: var(--spacing-md) var(--spacing-lg);
-  cursor: pointer;
-  transition: border-color 0.15s ease;
-}
-
-.btn-retry:hover {
-  border-color: var(--color-ink);
 }
 
 /* ─── SCROLLBARS ─── */
@@ -454,7 +454,6 @@ hr {
 @media (max-width: 767px) {
   .container {
     padding: var(--spacing-md);
-  height: calc(100vh - 53px);
   }
 
   main {
@@ -464,7 +463,6 @@ hr {
 
   .panel {
     overflow-y: visible;
-    padding-right: 0;
   }
 
   .chart-section {

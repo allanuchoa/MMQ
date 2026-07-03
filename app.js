@@ -28,11 +28,29 @@ function toDecimalStr(val) {
   return s.replace(/0+$/, '').replace(/\.$/, '');
 }
 
+function showFormError(message) {
+  var el = document.getElementById('form-error');
+  if (!el) return;
+  el.textContent = message;
+  el.style.display = 'block';
+}
+
+function clearFormError() {
+  var el = document.getElementById('form-error');
+  if (!el) return;
+  el.style.display = 'none';
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   initApp();
 });
 
 function initApp() {
+  if (typeof Chart === 'undefined') {
+    var errorState = document.querySelector('.chart-error-state');
+    if (errorState) errorState.style.display = 'block';
+  }
+
   var supabaseClient = getSupabaseClient();
   if (!supabaseClient) return;
 
@@ -108,6 +126,8 @@ function solveLinearSystem(A, B) {
 }
 
 function calculateMMQ() {
+  clearFormError();
+
   var degree = parseInt(document.getElementById('degree').value);
   var xInput = document.getElementById('x-values').value;
   var yInput = document.getElementById('y-values').value;
@@ -116,11 +136,11 @@ function calculateMMQ() {
   var y = parseInput(yInput);
 
   if (x.length !== y.length || x.length === 0) {
-    alert('Erro: O n\u00famero de valores de X e Y deve ser o mesmo e n\u00e3o pode ser vazio.');
+    showFormError('O n\u00famero de valores de X e Y deve ser o mesmo e n\u00e3o pode ser vazio.');
     return;
   }
   if (x.length <= degree) {
-    alert('Erro: Para um polin\u00f4mio de ordem ' + degree + ', voc\u00ea precisa de pelo menos ' + (degree + 1) + ' pontos.');
+    showFormError('Para um polin\u00f4mio de ordem ' + degree + ', voc\u00ea precisa de pelo menos ' + (degree + 1) + ' pontos.');
     return;
   }
 
@@ -158,7 +178,7 @@ function calculateMMQ() {
   try {
     coeffs = solveLinearSystem(A, B);
   } catch (e) {
-    alert('Erro no c\u00e1lculo da matriz. Verifique se os dados n\u00e3o geram um sistema singular.');
+    showFormError('Erro no c\u00e1lculo da matriz. Verifique se os dados n\u00e3o geram um sistema singular.');
     return;
   }
 
@@ -364,30 +384,30 @@ function renderChart(x, y, yPred, degree, coeffs) {
 
 function copyToExcel() {
   if (!lastResults) {
-    alert('Calcule primeiro antes de copiar.');
+    showFormError('Calcule primeiro antes de copiar.');
     return;
   }
 
   if (!navigator.clipboard) {
-    alert('Erro ao copiar: clipboard indisponivel neste navegador.');
+    showFormError('Clipboard indispon\u00edvel neste navegador.');
     return;
   }
 
   var textToCopy = lastResults.excelStr;
 
   navigator.clipboard.writeText(textToCopy).then(function () {
-    var btn = document.querySelector('.copy-btn-small');
+    var btn = document.querySelector('.btn-icon-copy');
     var origText = btn.innerText;
     btn.innerText = 'Copiado!';
     setTimeout(function () { btn.innerText = origText; }, 2000);
   }).catch(function (err) {
-    alert('Erro ao copiar: ' + err);
+    showFormError('Erro ao copiar: ' + err);
   });
 }
 
 function calculateNewY() {
   if (!lastResults || !lastResults.coeffs) {
-    alert('Por favor, calcule o ajuste original primeiro.');
+    showFormError('Por favor, calcule o ajuste original primeiro.');
     return;
   }
 
@@ -395,7 +415,7 @@ function calculateNewY() {
   var xVals = parseInput(input);
 
   if (xVals.length === 0) {
-    alert('Insira valores de X para calcular.');
+    showFormError('Insira valores de X para calcular.');
     return;
   }
 
@@ -429,7 +449,7 @@ function calculateNewY() {
       return ds.label === 'Pontos Simulados';
     });
 
-    var amber = '#f59e0b';
+    var amber = rootStyles.getPropertyValue('--amber').trim() || '#f59e0b';
 
     if (simDataset) {
       simDataset.data = simulatedData;

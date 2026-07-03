@@ -38,8 +38,8 @@ Para versoes futuras que precisarem de persistencia, use o prefixo `cvp_` e siga
 
 ## Integracao
 
-- SSO via evento `workbench-ready` disparado pelo AppBridge
+- SSO via Supabase Auth validado pelo AppBridge (carregado dinamicamente do portal)
 - `onAuthStateChange` escuta `SIGNED_OUT` e redireciona ao portal
-- Watchdog de 8s para falha do bridge
+- App inicializa em `DOMContentLoaded` (bridge valida sessao e redireciona se invalida)
 - Chart.js carregado via CDN no `<head>`
 - Cores do grafico resolvidas via CSS custom properties

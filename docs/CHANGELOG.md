@@ -1,5 +1,10 @@
 # CHANGELOG - Curva Polinomial
 
+## [1.2.0] - 2026-07-18
+
+### Adicionado
+- Valores pré-preenchidos para X e Y no carregamento (curva do Bico do Pato: f(x) = (x-2)²(x+1)), com degree=3 e cálculo automático ao abrir a página - (Autor: Agente de IA DeepSeek)
+
 ## [1.1.1] - 2026-07-03
 
 ### Corrigido

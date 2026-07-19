@@ -72,9 +72,9 @@ function initApp() {
   });
 
   setTimeout(function () {
-    document.getElementById('x-values').value = '-1.5, -0.5, 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5';
-    document.getElementById('y-values').value = '-6.125, 3.125, 4, 3.375, 2, 0.625, 0, 0.875, 4, 10.125';
-    document.getElementById('degree').value = '3';
+    document.getElementById('x-values').value = '0, 3, 6, 9, 12, 15, 18, 21, 24';
+    document.getElementById('y-values').value = '1600, 1550, 1500, 900, 500, 750, 2200, 1800, 1550';
+    document.getElementById('degree').value = '6';
     calculateMMQ();
   }, 500);
 }
